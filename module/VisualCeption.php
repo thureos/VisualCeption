@@ -101,6 +101,16 @@ class VisualCeption extends CodeceptionModule
     {
         if ($fail instanceof ImageDeviationException) {
             $this->failed[$test->getSignature() . '.' . $fail->getIdentifier()] = $fail;
+        }else{
+            $e = $fail->getPrevious();
+            while(!is_null($e)){
+                if($e instanceof ImageDeviationException){
+                    $this->failed[$test->getSignature() . '.' . $e->getIdentifier()] = $e;
+                    break;
+                }else{
+                    $e = $e->getPrevious();
+                }
+            }
         }
     }
 
